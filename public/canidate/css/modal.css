@@ -1,0 +1,11 @@
+.border-danger{
+    border: 1px solid #ff2828 !important;
+    box-shadow: 0px 2px 10px rgba(255, 109, 90, 0.767) !important;
+}
+.border-normal{
+    border: 1px solid #00ddff !important;
+    box-shadow: 0px 2px 10px rgba(90, 244, 255, 0.479) !important;
+}
+.modal-content{
+    border: none !important;
+}

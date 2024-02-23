@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Helper\JWTToken;
+use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TokenMiddleware {
+class CanidateMiddleare {
     /**
      * Handle an incoming request.
      *
@@ -18,11 +18,10 @@ class TokenMiddleware {
         $result = JWTToken::VerifyToken( $token );
         if ( $result == 'unauthorized' ) {
             return redirect( '/login' );
-        } else {
-            $request->headers->set( 'email', $result->userEmail );
-            $request->headers->set( 'id', $result->userID );
-            $request->headers->set( 'type', $result->type );
+        } else if ( $result->type == 'canidate' ) {
             return $next( $request );
+        } else {
+            return redirect( '/login' );
         }
     }
 }

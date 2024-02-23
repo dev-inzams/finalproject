@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Canidate;
+use App\Models\Employee;
 use Exception;
 use App\Models\User;
 use App\Mail\OTPMail;
@@ -17,24 +19,42 @@ class UserController extends Controller {
     function userRegistration(Request $request) {
         try{
             $request->validate([
-                'name' => 'required',
+                'type' => 'required',
                 'email' => 'required|email',
                 'password' => 'required|min:6'
             ]);
-            $name = $request->input('name');
+            $type = $request->input('type');
             $email = $request->input('email');
             $password = Hash::make($request->input('password'));
 
-            User::create([
-                'name' => $name,
-                'email' => $email,
-                'password' => $password
-            ]);
+            if($type == 'employee'){
+                $user = User::create([
+                    'email' => $email,
+                    'type' => 'employee',
+                    'password' => $password
+                ]);
+                $token = JWTToken::CreateToken( $email , $user->id, $user->type);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'User created successfully',
+                    'type' => $user->type
+                ], 200)->cookie( 'token', $token);
+            }else{
+                $user = User::create([
+                    'email' => $email,
+                    'type' => 'canidate',
+                    'password' => $password
+                ]);
+                $token = JWTToken::CreateToken( $email , $user->id, $user->type);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'User created successfully',
+                    'type' => $user->type
+                ], 200)->cookie( 'token', $token);
+            }
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User created successfully'
-            ], 200);
+
+
 
         }catch(Exception $e){
             return response()->json([
@@ -53,10 +73,11 @@ class UserController extends Controller {
             $password = $request->input('password');
             $user = User::where('email', $email)->first();
             if(Hash::check($password, $user->password)){
-               $token = JWTToken::CreateToken( $email , $user->id );
+               $token = JWTToken::CreateToken( $email , $user->id, $user->type);
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'User logged in successfully'
+                    'message' => 'User logged in successfully',
+                    'type' => $user->type
                 ],200)->cookie( 'token', $token);
             }else{
                 return response()->json([

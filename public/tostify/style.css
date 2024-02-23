@@ -1,0 +1,26 @@
+#toast-container {
+    position: fixed;
+    right: 20px;
+    z-index: 1000;
+    top: 54px;
+}
+
+.tost {
+    position: relative;
+    max-width: 300px;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.tost.success {
+    background-color: #28a745;
+}
+
+.tost.error {
+    background-color: #dc3545;
+}

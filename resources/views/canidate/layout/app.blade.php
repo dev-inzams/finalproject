@@ -6,25 +6,33 @@
   <title>@yield('title')</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('admin/css/modal.css') }}">
+  <link rel="stylesheet" href="{{ asset('canidate/css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('canidate/css/modal.css') }}">
 
   {{-- tostify --}}
   <link rel="stylesheet" type="text/css" href="{{ asset('tostify/style.css') }}">
   <script src="{{ asset('tostify/main.js') }}"></script>
+ {{-- axios --}}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {{-- preloader --}}
+  <link rel="stylesheet" href="{{ asset('preloader/style.css') }}">
+  <script src="{{ asset('preloader/app.js') }}"></script>
 </head>
 <body>
+
 @include('components.modal.delete')
+
 <!-- Sidebar -->
-@include('admin.layout.sidebar')
+@include('canidate.layout.sidebar')
 
 <!-- Top Bar -->
-@include('admin.layout.topbar')
+@include('canidate.layout.topbar')
 
 <!-- Content -->
+<div id="toast-container"></div>
 <div class="content">
   <div class="container">
-    <div id="toast-container"></div>
+    @include('components.preloader.border')
     @yield('content')
   </div>
 </div>
@@ -52,5 +60,6 @@
         document.getElementById('confirmDelete').setAttribute('data-id',0);
     }
 </script>
+
 </body>
 </html>
