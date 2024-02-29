@@ -7,3 +7,4 @@ async function getuserdetails(){
         document.getElementById('topbar_email').innerHTML = user['email'];
     }
 }
+

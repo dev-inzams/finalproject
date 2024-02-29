@@ -58,10 +58,8 @@
                 successToast(res.data['message']);
                 if(res.data['type'] == 'admin'){
                     window.location.href = '/jobplus/admin';
-                }else if(res.data['type'] == 'employee'){
-                    window.location.href = '/jobplus/employee';
                 }else{
-                    window.location.href = '/jobplus/candidate';
+                    window.location.href = '/jobplus/dashboard';
                 }
             }else{
                 errorToast(res.data['message']);

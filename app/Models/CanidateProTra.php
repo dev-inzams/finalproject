@@ -10,9 +10,8 @@ class CanidateProTra extends Model
     use HasFactory;
     protected $fillable = [
         'canidate_id',
-        'company_name',
-        'position',
-        'start_date',
+        'training_name',
+        'institute',
         'end_date'
     ];
 }

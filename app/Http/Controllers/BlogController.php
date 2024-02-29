@@ -24,7 +24,7 @@ class BlogController extends Controller {
             $time = time();
             $image_name = $title . '-' . $time . '.' . $image->getClientOriginalExtension();
             $image->move( public_path( 'img/blogs' ), $image_name );
-            $image_url = 'img/blogs' . $image_name;
+            $image_url = 'img/blogs/' . $image_name;
             Blog::create( [
                 'category_id' => $category_id,
                 'title'       => $title,

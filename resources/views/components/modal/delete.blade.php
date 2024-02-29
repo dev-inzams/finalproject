@@ -1,5 +1,5 @@
   <!-- Delete Modal -->
-  <div class="modal fade show" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade show mt-5" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content border-danger">
         <div class="modal-header">

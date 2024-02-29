@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Canidate;
 use App\Models\Job;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\JobApply;
+use App\Models\JobCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -65,7 +68,7 @@ class JobController extends Controller {
 
     public function index( Request $request ) {
         try {
-            $jobs = Job::all();
+            $jobs = Job::where('status', 1)->get();
             if($jobs){
                 return response()->json( [
                     'status'  => 'success',
@@ -78,6 +81,23 @@ class JobController extends Controller {
                 ]);
             }
 
+        } catch ( \Exception $e ) {
+            return response()->json( [
+                'status'  => 'error',
+                'message' => $e->getMessage(),
+            ] );
+        }
+    }
+
+    public function show( Request $request ) {
+        try {
+            $id = $request->id;
+            $job = Job::where('id', $id)->first();
+            $category_id = $job->category_id;
+            $company_id = $job->company_id;
+            $company = Company::where('id', $company_id)->first();
+            $category = JobCategory::where('id', $category_id)->first();
+            return view( 'indexing.pages.jobs-single', [ 'job' => $job, 'company' => $company, 'category' => $category ] );
         } catch ( \Exception $e ) {
             return response()->json( [
                 'status'  => 'error',
@@ -177,6 +197,67 @@ class JobController extends Controller {
                 'status'  => 'error',
                 'message' => 'No jobs found',
             ]);
+        }
+    }
+
+    public function getapplicants( Request $request ){
+        $job_id = $request->input('job_id');
+        $applicants = JobApply::where('job_id', $job_id)->get();
+        $canidate_id = [];
+        foreach ($applicants as $key => $value) {
+            $canidate_id[] = $value->canidate_id;
+        }
+        // return Canidate name from Canidate Model
+        $canidates = Canidate::whereIn('id', $canidate_id)->get();
+        return response()->json( [
+            'status'  => 'success',
+            'data'    => $canidates
+        ]);
+    }
+
+    public function publish( Request $request){
+        $id = $request->input('id');
+        Job::where('id', $id)->update([
+            'status' => 1,
+        ]);
+        return response()->json( [
+            'status'  => 'success',
+            'message' => 'Job status updated successfully',
+        ]);
+    }
+
+    public function totaljobs(){
+        $jobs = Job::all();
+        return response()->json( [
+            'status'  => 'success',
+            'data'    => $jobs
+        ]);
+    }
+
+    public function viewjobs( Request $request ){
+        $id = $request->input('id');
+        $jobs = Job::where('id', $id)->get();
+        return response()->json( [
+            'status'  => 'success',
+            'data'    => $jobs
+        ]);
+    }
+
+    public function adminDestroy( Request $request ) {
+        try {
+            $id = $request->input( 'id' );
+            $imgPath = Job::where('id', $id)->value('image');
+            File::delete( $imgPath );
+            Job::where('id', $id)->delete();
+            return response()->json( [
+                'status'  => 'success',
+                'message' => 'Job deleted successfully',
+            ]);
+        } catch ( \Exception $e ) {
+            return response()->json( [
+                'status'  => 'error',
+                'message' => $e->getMessage(),
+            ] );
         }
     }
 }

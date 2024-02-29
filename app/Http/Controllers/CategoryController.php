@@ -101,4 +101,13 @@ class CategoryController extends Controller {
             ] );
         }
     }
+
+    public function getCategory( Request $request ) {
+        $id = $request->input( 'id' );
+        $category = Category::where('id', $id)->first();
+        return response()->json( [
+            'status'  => 'success',
+            'category' => $category,
+        ] );
+    }
 }

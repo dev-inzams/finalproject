@@ -17,7 +17,7 @@
                 <input type="password" class="form-control" id="password" placeholder="Password" required>
               </div>
               <button onclick="login()" type="submit" class="btn btn-primary btn-block btn-login">Login</button>
-
+              <a href="{{route('registration')}}">Sign Up</a>
           </div>
         </div>
       </div>
@@ -39,11 +39,11 @@
       if(res.data['status'] == 'success'){
           successToast(res.data['message']);
           if(res.data['type'] == 'admin'){
-              window.location.href = '/jobplus/admin';
+              window.location.href = '/jobplus/dashboard';
           }else if(res.data['type'] == 'employee'){
-              window.location.href = '/jobplus/employee';
+              window.location.href = '/jobplus/dashboard';
           }else{
-              window.location.href = '/jobplus/candidate';
+              window.location.href = '/jobplus/dashboard';
           }
         }else{
             errorToast(res.data['message']);

@@ -116,4 +116,12 @@ class JobCategoryController extends Controller {
             ] );
         }
     }
+
+    public function getjobsCategory(){
+        $category = JobCategory::all();
+        return response()->json([
+            'status' => 'success',
+            'data' => $category
+        ]);
+    }
 }

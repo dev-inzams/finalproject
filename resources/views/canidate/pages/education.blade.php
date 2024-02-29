@@ -11,23 +11,20 @@
           <button type="button" class="btn-close" onclick="hideModal()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <label class="form-label" for="job_title">Job Title</label>
-          <input class="form-control" type="text" id="job_title">
+          <label class="form-label" for="degree">Degree</label>
+          <input class="form-control" type="text" id="degree">
 
-          <label class="form-label" for="description">Job Description</label>
-          <textarea class="form-control" id="description" cols="30" rows="6"></textarea>
+          <label class="form-label" for="institute">Institute</label>
+          <input class="form-control" type="text" id="institute">
 
-          <label class="form-label" for="skills">Job skills</label>
-          <span class="form-text text-muted">php,laravel,javascript</span>
-          <input class="form-control" type="text" id="skills">
+          <label class="form-label" for="department">Department</label>
+          <input class="form-control" type="text" id="department">
 
-          <label class="form-label" for="category">Category</label>
-          <select class="form-control" id="category"></select>
+          <label class="form-label" for="result">Result</label>
+          <input class="form-control" type="text" id="result">
 
-
-
-          <label class="form-label" for="expire">Expire</label>
-          <input class="form-control" type="date" id="expire">
+          <label class="form-label" for="category">Passing Year</label>
+          <input class="form-control" type="text" id="passing_year">
 
           <button onclick="addedu()" class="btn btn-primary mt-3">Add Jobs</button>
         </div>
@@ -45,7 +42,7 @@
             <p>This is a simple user dashboard with left side menu and top bar menu.</p>
         </div>
         <div class="col-md-4 text-end">
-            <button type="button" class="btn btn-primary">Add Education</button>
+            <button onclick="showModal()" type="button" class="btn btn-primary">Add Education</button>
         </div>
     </div>
     <table class="table table-striped">
@@ -54,19 +51,87 @@
                 <th scope="col">#</th>
                 <th scope="col">Degree</th>
                 <th scope="col">Institute</th>
+                <th scope="col">Department</th>
+                <th scope="col">Result</th>
                 <th scope="col">Passing Year</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Bachelor of Computer Science</td>
-                <td>University of Dhaka</td>
-                <td>2020</td>
-            </tr>
+        <tbody id="edu">
+
         </tbody>
     </table>
 </div>
 
+<script>
+    getEdu();
+    async function getEdu(){
+        let res = await axios.post('/canidate-get-education');
+        let data = res.data['data'];
+        let html = '';
+        data.forEach(element => {
+            html += '<tr>'+
+            '<th scope="row">'+element['id']+'</th>'+
+            '<td>'+element['degree']+'</td>'+
+            '<td>'+element['institute']+'</td>'+
+            '<td>'+element['department']+'</td>'+
+            '<td>'+element['result']+'</td>'+
+            '<td>'+element['passing_year']+'</td>'+
+            '<td><button class="btn btn-danger" onclick="deleteModal('+element['id']+')">Delete</button></td>'+
+            '</tr>';
+        });
+        $('#edu').html(html);
+    }
+
+    async function addedu(){
+        let degree = $('#degree').val();
+        let institute = $('#institute').val();
+        let department = $('#department').val();
+        let result = $('#result').val();
+        let passing_year = $('#passing_year').val();
+        showLoader();
+        let postdata = new FormData();
+        postdata.append('degree',degree);
+        postdata.append('institute',institute);
+        postdata.append('department',department);
+        postdata.append('result',result);
+        postdata.append('passing_year',passing_year);
+        postdata.append('_token','{{ csrf_token() }}');
+        let res = await axios.post('/canidate-create-education',postdata);
+        hideLoader();
+        if(res.data['status'] == 'success'){
+            successToast(res.data['message']);
+            location.reload();
+        }else{
+            errorToast(res.data['message']);
+        }
+    }
+
+    async function confirmDelete() {
+        var id = $('#confirmDelete').data('id');
+        showLoader();
+        let postdata = new FormData();
+        postdata.append('id',id);
+        postdata.append('_token','{{ csrf_token() }}');
+        let res = await axios.post('/canidate-destroy-education',postdata);
+        hideLoader();
+        if(res.data['status'] == 'success'){
+            hideDelete();
+            successToast(res.data['message']);
+            await getEdu();
+        }else{
+            errorToast(res.data['message']);
+        }
+    }
+
+// modal function
+    function showModal(){
+        document.getElementById('mymodal').style.display = 'block';
+    }
+    function hideModal(){
+        document.getElementById('mymodal').style.display = 'none';
+
+    }
+</script>
 
 @endsection

@@ -4,12 +4,13 @@
 
 
 
+
 <div class="row">
     <div class="col-md-12">
       <h2>Welcome to your Dashboard</h2>
       <p>This is a simple user dashboard with left side menu and top bar menu.</p>
     </div>
-    <button onclick="showModal('Tostify')">Tostify</button>
+    <button onclick="deleteModal('1')">Delete</button>
 </div>
 <script>
     function hideModal(){

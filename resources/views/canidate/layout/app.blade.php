@@ -51,10 +51,7 @@
         document.getElementById('deleteModal').style.display = 'block';
         document.getElementById('confirmDelete').setAttribute('data-id',id);
     }
-    function confirmDelete(){
-        document.getElementById('deleteModal').style.display = 'none';
-        document.getElementById('confirmDelete').setAttribute('data-id',0);
-    }
+
     function hideDelete(){
         document.getElementById('deleteModal').style.display = 'none';
         document.getElementById('confirmDelete').setAttribute('data-id',0);
