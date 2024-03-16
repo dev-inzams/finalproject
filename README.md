@@ -1,6 +1,4 @@
-<iframe width="420" height="315"
-src="https://youtu.be/ig8y7CI7XG4">
-</iframe>
+<iframe width="1259" height="708" src="https://www.youtube.com/embed/ig8y7CI7XG4" title="Job pluse || Developer inzams" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
